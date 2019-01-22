@@ -41,7 +41,7 @@ function SetupTestData(){
         ingredientsCollection.insertMany(ingredients)
             .then(function(result){
                 test.equal(2,result.insertedCount);
-                console.log('added ' + result);
+                console.log('added ' + result.ops);
             })
             .catch(function(error){
                 console.log(error);
@@ -49,8 +49,8 @@ function SetupTestData(){
 
         recipesCollection.insertMany(recipes)
             .then(function(r){
-                r.forEach(function(s){
-                    JSON.stringify(s);
+                r.ops.forEach(function(s){
+                    console.log(JSON.stringify(s));
                 })
             })
             .catch(function(err){
@@ -59,6 +59,18 @@ function SetupTestData(){
 
             db.close();
     });    
+}
+
+function GetIngredients(){
+    mongoClient.connect(connectUrl,function(err,db){
+        var dbo = db.db(databaseName);
+
+        return dbo.collection('ingredients').find({});
+    })
+}
+
+function GetRecipes(){
+    
 }
 
 SetupTestData();
