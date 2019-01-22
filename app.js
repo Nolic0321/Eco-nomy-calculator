@@ -1,16 +1,25 @@
 var mongoClient = require('mongodb').MongoClient;
 var test = require('assert');
+var connectUrl = 'mongodb+srv://user:6WhqrRdDwu5zKr9@cluster0-nkp2n.mongodb.net/test?retryWrites=true';
+var databaseName = 'eco-nomy';
 
-function setup(connectionString,database){
+function SetupTestData(){
     var ingredients = [
         {name: 'Test',cost: '100'},
         {name: 'Test1',cost: '10'}
     ];
-
-    mongoClient.connect(connectionString,{useNewUrlParser: true},function(err,db){
+    
+    var recipes = [
+        {name: 'Test Recipe 1', ingredients: [{name: 'Ingredient 1',count: 4, name: 'Ingredient 2',count: 4}]},
+        {name: 'Test Recipe 2', ingredients: [{name: 'Ingredient 3',count: 4, name: 'Ingredient 4',count: 4}]},
+        {name: 'Test Recipe 3', ingredients: [{name: 'Ingredient 3',count: 4, name: 'Ingredient 6',count: 40}]}
+    ]
+    
+    mongoClient.connect(connectUrl,{useNewUrlParser: true},function(err,db){
         if(err) throw err;
-        var dbo = db.db(database);
+        var dbo = db.db(databaseName);
         var ingredientsCollection = dbo.collection('ingredients');
+        var recipesCollection = dbo.collection('recipes');
         ingredientsCollection.deleteMany({})
             .then(function(result){
                 console.log('Cleared ' + result.deletedCount + ' objects from \'ingredients\' collection')
@@ -20,6 +29,15 @@ function setup(connectionString,database){
             .catch(function(err){
                 console.log(err);
             })
+            
+            recipesCollection.deleteMany({})
+                .then(function(result){
+                    console.log('Cleared ' + result.deletedCount + ' objects from the \'reipes\' collection');
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
+            
         ingredientsCollection.insertMany(ingredients)
             .then(function(result){
                 test.equal(2,result.insertedCount);
@@ -28,11 +46,19 @@ function setup(connectionString,database){
             .catch(function(error){
                 console.log(error);
             })
-            .finally(function(){
-                console.log('done');
+
+        recipesCollection.insertMany(recipes)
+            .then(function(r){
+                r.forEach(function(s){
+                    JSON.stringify(s);
+                })
             })
-    });
+            .catch(function(err){
+                console.log(err);
+            })
+
+            db.close();
+    });    
 }
 
-
-setup('mongodb+srv://user:6WhqrRdDwu5zKr9@cluster0-nkp2n.mongodb.net/test?retryWrites=true','eco-nomy');
+SetupTestData();
