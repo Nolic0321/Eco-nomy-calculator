@@ -1,7 +1,11 @@
-var mongoClient = require('mongodb').MongoClient;
-var test = require('assert');
-var connectUrl = 'mongodb+srv://user:6WhqrRdDwu5zKr9@cluster0-nkp2n.mongodb.net/test?retryWrites=true';
-var databaseName = 'eco-nomy';
+const mongoClient = require('mongodb').MongoClient;
+const test = require('assert');
+const express = require('express');
+const connectUrl = 'mongodb+srv://user:6WhqrRdDwu5zKr9@cluster0-nkp2n.mongodb.net/test?retryWrites=true';
+const databaseName = 'eco-nomy';
+const app = express();
+
+app.set('port',process.env.PORT || 3001);
 
 function SetupTestData(){
     var ingredients = [
