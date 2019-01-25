@@ -16,18 +16,25 @@ app.listen(app.get("port"), () => {
 console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
 });
 
+//******************** MOCK DATA*******************
+var ingredients = [
+    {name: 'Test',cost: '100'},
+    {name: 'Test1',cost: '10'}
+];
+
+var recipes = [
+    {name: 'Test Recipe 1', ingredients: [{name: 'Ingredient 1',count: 4, name: 'Ingredient 2',count: 4}]},
+    {name: 'Test Recipe 2', ingredients: [{name: 'Ingredient 3',count: 4, name: 'Ingredient 4',count: 4}]},
+    {name: 'Test Recipe 3', ingredients: [{name: 'Ingredient 3',count: 4, name: 'Ingredient 6',count: 40}]}
+]
+//******************** MOCK DATA*******************
+
+app.get('/api/ingredients',(req, res)=>{
+    console.log('server handeling get ingredients request');
+    res = ingredients;
+});
 
 function SetupTestData(){
-    var ingredients = [
-        {name: 'Test',cost: '100'},
-        {name: 'Test1',cost: '10'}
-    ];
-    
-    var recipes = [
-        {name: 'Test Recipe 1', ingredients: [{name: 'Ingredient 1',count: 4, name: 'Ingredient 2',count: 4}]},
-        {name: 'Test Recipe 2', ingredients: [{name: 'Ingredient 3',count: 4, name: 'Ingredient 4',count: 4}]},
-        {name: 'Test Recipe 3', ingredients: [{name: 'Ingredient 3',count: 4, name: 'Ingredient 6',count: 40}]}
-    ]
     
     mongoClient.connect(connectUrl,{useNewUrlParser: true},function(err,db){
         if(err) throw err;
