@@ -5,3 +5,5 @@ class IngredientStore extends Store{
         super(initialState);
     }
 }
+
+export default IngredientStore;
