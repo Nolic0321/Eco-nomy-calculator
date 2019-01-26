@@ -28,7 +28,8 @@ var recipes = [
 
 app.get('/api/ingredients',(req, res)=>{
     console.log('server handeling get ingredients request');
-    res = ingredients;
+    res.json(ingredients);
+    
 });
 
 function SetupTestData(){

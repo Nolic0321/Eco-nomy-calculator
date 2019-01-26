@@ -25,7 +25,7 @@ function checkStatus(response){
 }
 
 function parseJSON(response){
-    console.log(response);
+    console.log(response.json());
 }
 
 const ingredientStore = new IngredientStore([]);

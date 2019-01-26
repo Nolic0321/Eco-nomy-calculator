@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import IngredientStore from '../../Stores/IngredientStore';
-//test
+import IngredientStore from './Stores/IngredientStore';
+
 
 class App extends Component {
   
