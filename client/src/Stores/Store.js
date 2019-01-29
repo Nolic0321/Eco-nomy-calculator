@@ -1,15 +1,17 @@
-import {Component} from 'react';
 import { EventEmitter } from "events";
 
-class Store extends Component{
+class Store {
     constructor(initialState) {
-        super(initialState);
         this.state = initialState;
         this.listeners = new EventEmitter();
     }
 
     componentDidUpdate(prevProps, prevState,snapshot) {
         this.listeners.emit('stateChanged');
+    }
+
+    setState (state){
+        this.state = state;
     }
 
     getState() {
@@ -23,5 +25,6 @@ class Store extends Component{
         };
     }
 }
+
 
 export default Store;

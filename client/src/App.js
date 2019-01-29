@@ -5,24 +5,28 @@ import IngredientStore from './Stores/IngredientStore';
 
 
 class App extends Component {
-  
   render() {
+    var ingredients = IngredientStore.getIngredients();
+    console.log(ingredients.length);
+    var ingredientsRender = [];
+    for(var i=0; i < ingredients.length;i++){
+      ingredientsRender.push(<Ingredient value={ingredients[i]}/>);
+    }
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>{ingredients}</div>
+        {ingredientsRender}
+      </div>
+    );
+  }
+}
+
+class Ingredient extends Component {
+  render(props) {
+    return (
+      <div>
+        <span>Ingredient: {props.name}</span>
+        <span>Count: {props.count}</span>
       </div>
     );
   }

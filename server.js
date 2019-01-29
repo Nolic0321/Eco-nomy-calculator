@@ -31,6 +31,10 @@ app.get('/api/ingredients',(req, res)=>{
     res.json(ingredients);
     
 });
+  
+app.listen(app.get("port"), () => {
+    console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
+    });
 
 function SetupTestData(){
     
@@ -93,6 +97,3 @@ function GetRecipes(){
 }
 
 SetupTestData();
-
-
-export default app;

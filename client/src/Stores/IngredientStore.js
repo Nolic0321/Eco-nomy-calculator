@@ -1,32 +1,36 @@
 import Store from "./Store";
 
-class IngredientStore extends Store{
-    constructor(initialState){
+class IngredientStore extends Store {
+    constructor(initialState) {
         super(initialState);
+        this.state = initialState;
+    }
 
+    getFromDB(){
+        console.log("getting DB data");
         fetch('/api/ingredients', {
             accept: "application/json"
-          })
-        .then(checkStatus)
-        .then(parseJSON)
+        })
+            .then((response) => {
+                console.log("responded")
+                if (response.status >= 200 && response.status < 300) {
+                    return response;
+                }
+                const error = new Error(`HTTP Error ${response.statusText}`);
+                error.status = response.statusText;
+                error.response = response;
+                console.log(error); // eslint-disable-line no-console
+                throw error;
+            })
+            .then((response) => {
+                console.log('Found ' + response)
+                this.setState(response);
+            })
+    }
+
+    getIngredients() {
+      return this.getState();
     }
 }
-
-
-function checkStatus(response){
-    if(response.status >= 200 && response.status < 300){
-        return response;
-    }
-    const error = new Error(`HTTP Error ${response.statusText}`);
-    error.status = response.statusText;
-    error.response = response;
-    console.log(error); // eslint-disable-line no-console
-    throw error;
-}
-
-function parseJSON(response){
-    console.log(response.json());
-}
-
 const ingredientStore = new IngredientStore([]);
 export default ingredientStore;
