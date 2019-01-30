@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactTable from 'react-table';
 import logo from './logo.svg';
 import './App.css';
 import IngredientStore from './Stores/IngredientStore';
@@ -14,19 +15,33 @@ class App extends Component {
     }
     return (
       <div className="App">
-      <div>{ingredients}</div>
-        {ingredientsRender}
+        <IngredientList/>
       </div>
     );
   }
 }
 
+class IngredientList extends Component{
+  render(props){
+    return(
+      <Ingredient/>
+    )
+  }
+}
+
 class Ingredient extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      name: 'ingredient',
+      cost: 50
+    }
+  }
   render(props) {
     return (
       <div>
-        <span>Ingredient: {props.name}</span>
-        <span>Count: {props.count}</span>
+        <span>Ingredient: {this.state.name}</span>
+        <span>Count: {this.state.cost}</span>
       </div>
     );
   }
