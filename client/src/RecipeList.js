@@ -56,7 +56,7 @@ class RecipeList extends Component {
         var ingredient = recipe.ingredients[i];
         var ingredientInfo = findElement(this.state.ingredientData,'name',ingredient.name);
         var skillInfo = findElement(skillEfficiencyMultiplier,'name',recipe.skill);
-  
+        
         total += ingredientInfo.cost * ingredient.baseAmount * ((skillInfo)?skillInfo.multiplier:1);
       }
       return total;

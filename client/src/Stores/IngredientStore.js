@@ -1,9 +1,21 @@
 import Store from "./Store";
 
+
+
+const ingredientData = [
+  { name: 'ingredient 1', cost: 3 },
+  { name: 'ingredient 2', cost: 0 },
+  { name: 'ingredient 3', cost: 7 },
+  { name: 'ingredient 4', cost: 1 }
+]
+
+
 class IngredientStore extends Store {
     constructor(initialState) {
         super(initialState);
-        this.state = initialState;
+        this.state = {
+            data: ingredientData
+        };
     }
 
     getFromDB(){
@@ -24,12 +36,14 @@ class IngredientStore extends Store {
             })
             .then((response) => {
                 console.log('Found ' + response)
-                this.setState(response);
+                this.setState({
+                    data: response
+                });
             })
     }
 
     getIngredients() {
-      return this.getState();
+      return this.state.data;
     }
 }
 const ingredientStore = new IngredientStore([]);
