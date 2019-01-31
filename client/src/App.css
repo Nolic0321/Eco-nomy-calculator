@@ -30,3 +30,24 @@
     transform: rotate(360deg);
   }
 }
+
+.table-display{
+  display: flex;
+  justify-content: space-around;
+}
+
+.recipe-list{
+  flex-grow: 1;
+  padding: 0px 20px 0px 20px;
+  justify-content: right;
+}
+
+.ingredient-list{
+  flex-grow: 1;
+  padding: 0px 20px 0px 20px;
+  justify-content: left
+}
+
+input{
+  width: 100%;
+}

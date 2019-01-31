@@ -3,6 +3,10 @@ import ReactTable, { ReactTableDefaults } from 'react-table';
 import 'react-table/react-table.css'
 import './App.css';
 import IngredientStore from './Stores/IngredientStore';
+import RecipeList from './RecipeList'
+import IngredientList from './IngredientList'
+
+
 
 const ingredientData = [
   { name: 'ingredient 1', cost: 3 },
@@ -11,41 +15,21 @@ const ingredientData = [
   { name: 'ingredient 4', cost: 1 }
 ]
 
-const skillEfficiencyMultiplier = [
-  { name: 'skill 1', multiplier: .2 },
-  { name: 'skill 2', multiplier: 1 },
-  { name: 'skill 3', multiplier: .8 }
-]
-
-const recipeData = [
-  {
-    name: 'recipe 1 (80% Efficiency)',
-    skill: 'skill 1',
-    ingredients: [
-      { name: 'ingredient 1', baseAmount: '20' },
-      { name: 'ingredient 4', baseAmount: '2' }
-    ]
-  },
-  {
-    name: 'recipe 2 (0 Effeciency)',
-    skill: 'skill 2',
-    ingredients: [
-      { name: 'ingredient 3', baseAmount: '200' },
-      { name: 'ingredient 1', baseAmount: '8' }
-    ]
-  },
-  {
-    name: 'recipe 3 (20% Effeciency)',
-    skill: 'skill 3',
-    ingredients: [
-      { name: 'ingredient 2', baseAmount: '1' },
-      { name: 'ingredient 3', baseAmount: '12' }
-    ]
-  },
-]
-
-
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      ingredientData: ingredientData
+    }
+    this.recalculateCosts = this.recalculateCosts.bind(this);
+  }
+
+  recalculateCosts(newIngredientData){
+    var newState = this.state;
+    newState.ingredientData = newIngredientData
+    this.setState(newState);
+  }
+
   render() {
     var ingredients = IngredientStore.getIngredients();
     console.log(ingredients.length);
@@ -55,55 +39,27 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <IngredientList />
-        <RecipeList />
+        <h1>Eco-nomy Calculator</h1>
+        <hr/>
+        <br/>
+        <div className='table-display'>
+          <IngredientList 
+            className='ingredient-list' 
+            onIngredientCostChanged={this.recalculateCosts}
+            ingredientData = {this.state.ingredientData}/>
+          <div className='resize-box'></div>
+          <RecipeList  
+            className='recipe-list'
+            ingredientData = {this.state.ingredientData}/>
+        </div>
       </div>
     );
   }
 }
 
-class RecipeList extends Component {
-  constructor(props) {
-    super(props)
-  }
 
-  render() {
-    const columns = [
-      {
-        Header: "Recipes",
-        columns: [
-          {
-            Header: "Name",
-            accessor: "name"
-          },
-          {
-            Header: "Cost",
-            id: 'ingredients',
-            accessor: (d) => getRecipeCost(d)
-          }]
-      }
-    ]
 
-    return (
-      <div>
-        <ReactTable
-          data={recipeData}
-          columns={columns}
-          defaultPageSize={10}
-        />
-      </div>
-    )
-  }
 
-}
-
-class IngredientList extends Component {
-  render(props) {
-    return (
-      <div></div>
-    )
-  }
-}
 
 class Ingredient extends Component {
   constructor(props) {
@@ -123,22 +79,6 @@ class Ingredient extends Component {
   }
 }
 
-//Get the recipe cost by earching the ingredients
-//list for cost and multiplying that cost by 
-//the recipe's base amount.
-//*NOTE* This should be done on the DB end
-function getRecipeCost(recipe) {
-  const total = 0
 
-  for (var x in ingredientData) {
-    if (ingredientData[x].name === recipe.ingredient.name) {
-      for (var y in skillEfficiencyMultiplier) {
-        if(y.name === recipe.skill)
-        return total + (ingredientData[x].cost * recipe.ingredient.baseAmount * y.multiplier);
-      }
-    }
-  }
-  return total;
-}
 
 export default App;
