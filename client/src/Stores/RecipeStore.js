@@ -1,21 +1,20 @@
 import Store from "./Store";
 
 
-class IngredientStore extends Store {
+class RecipeStore extends Store {
     constructor(initialState) {
         super(initialState);
-        this.getFromDB(data => {
+        this.getFromDB(responseData => {
             this.setState({
-                data: data
+                data: responseData
             })
         })
     }
 
-    getFromDB(callback){
+    getFromDB(callback) {
         console.log("getting DB data");
-        fetch('/api/ingredients')
+        fetch('/api/recipes')
             .then((response) => {
-                console.log("responded")
                 if (response.status >= 200 && response.status < 300) {
                     return response;
                 }
@@ -26,19 +25,20 @@ class IngredientStore extends Store {
                 throw error;
             })
             .then((response) => {
-                console.log('Found ' + response)
                 return response.json()
             })
             .then(callback)
     }
 
-    getIngredients(){
+    getRecipes() {
         return this.state.data;
     }
 
-    setIngredients(ingredients){
-        this.setState({data: ingredients});
+    setRecipes(recipes) {
+        this.setState({
+            data: recipes
+        })
     }
 }
-const ingredientStore = new IngredientStore([]);
-export default ingredientStore;
+const recipeStore = new RecipeStore([]);
+export default recipeStore;

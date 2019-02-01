@@ -6,12 +6,14 @@ class Store {
         this.listeners = new EventEmitter();
     }
 
-    componentDidUpdate(prevProps, prevState,snapshot) {
-        this.listeners.emit('stateChanged');
+    componentDidUpdate() {
+        console.log("updating store")
+    this.listeners.emit('stateChanged',this.state);
     }
 
     setState (state){
         this.state = state;
+        this.componentDidUpdate()
     }
 
     getState() {

@@ -1,7 +1,7 @@
 import Store from "./Store";
 
 
-class IngredientStore extends Store {
+class SkillStore extends Store {
     constructor(initialState) {
         super(initialState);
         this.getFromDB(data => {
@@ -11,11 +11,10 @@ class IngredientStore extends Store {
         })
     }
 
-    getFromDB(callback){
+    getFromDB(callback) {
         console.log("getting DB data");
-        fetch('/api/ingredients')
+        fetch('/api/skills')
             .then((response) => {
-                console.log("responded")
                 if (response.status >= 200 && response.status < 300) {
                     return response;
                 }
@@ -26,19 +25,20 @@ class IngredientStore extends Store {
                 throw error;
             })
             .then((response) => {
-                console.log('Found ' + response)
                 return response.json()
             })
             .then(callback)
     }
 
-    getIngredients(){
+    getSkills() {
         return this.state.data;
     }
 
-    setIngredients(ingredients){
-        this.setState({data: ingredients});
+    setSkills(skills) {
+        this.setState({
+            data: skills
+        })
     }
 }
-const ingredientStore = new IngredientStore([]);
-export default ingredientStore;
+const skillStore = new SkillStore([]);
+export default skillStore;

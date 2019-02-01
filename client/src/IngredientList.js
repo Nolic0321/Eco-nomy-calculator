@@ -1,34 +1,34 @@
 import React, {Component} from 'react'
 import ReactTable from 'react-table'
 import {findElement} from './Util'
+import ingredientStore from './Stores/IngredientStore';
 
   class IngredientList extends Component {
     constructor(props){
-      super(props)
-      this.state = {
-        data: this.props.ingredientData
-      }
+      super(props);
       this.renderInput = this.renderInput.bind(this);
       this.handleChange = this.handleChange.bind(this);
     }
   
     handleChange(e){
-        var data = [...this.state.data]
+        var data = [...this.props.ingredientData]
         findElement(data,'name',e.target.name).cost = e.target.value
         this.setState({data})
         this.props.onIngredientCostChanged(data);
     }
   
     renderInput(cellInfo){
-        var name = this.state.data[cellInfo.index].name
-        var cost = this.state.data[cellInfo.index][cellInfo.column.id]
+        var name = ingredientStore.getIngredients()[cellInfo.index].name
+        var cost = ingredientStore.getIngredients()[cellInfo.index].cost
       return(
           <form>
         <input type='text' value={cost} name={name} contentEditable onChange={this.handleChange}></input>
         </form>
       )
     }
+
     render() {
+      console.log('ingredient list rendering...')
       const columns = [
         {
           Header: "Ingredients",
@@ -48,7 +48,7 @@ import {findElement} from './Util'
       return (
         <div className = {this.props.className}>
           <ReactTable
-            data={this.state.data}
+            data={ingredientStore.getIngredients()}
             columns={columns}
             defaultPageSize={10}
           />

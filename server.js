@@ -14,23 +14,37 @@ if (process.env.NODE_ENV === "production") {
 
 
 //******************** MOCK DATA*******************
-var ingredients = [
-    {name: 'Test',cost: '100'},
-    {name: 'Test1',cost: '10'}
-];
+const ingredients = [
+    { name: 'ingredient 1', cost: 3 },
+    { name: 'ingredient 2', cost: 0 },
+    { name: 'ingredient 3', cost: 7 },
+    { name: 'ingredient 4', cost: 1 }
+  ]
 
 var recipes = [
-    {name: 'Test Recipe 1', ingredients: [{name: 'Ingredient 1',count: 4, name: 'Ingredient 2',count: 4}]},
-    {name: 'Test Recipe 2', ingredients: [{name: 'Ingredient 3',count: 4, name: 'Ingredient 4',count: 4}]},
-    {name: 'Test Recipe 3', ingredients: [{name: 'Ingredient 3',count: 4, name: 'Ingredient 6',count: 40}]}
+    {name: 'Test Recipe 1', skill: 'skill 1',ingredients: [{name: 'Ingredient 1',baseAmount: 4, name: 'Ingredient 2',baseAmount: 4}]},
+    {name: 'Test Recipe 2', skill: 'skill 2',ingredients: [{name: 'Ingredient 3',baseAmount: 4, name: 'Ingredient 4',baseAmount: 4}]},
+    {name: 'Test Recipe 3', skill: 'skill 3',ingredients: [{name: 'Ingredient 3',baseAmount: 4, name: 'Ingredient 6',baseAmount: 40}]}
 ]
+
+const skills = [
+    { name: 'skill 1', multiplier: .2 },
+    { name: 'skill 2', multiplier: 1 },
+    { name: 'skill 3', multiplier: .8 }
+  ]
 //******************** MOCK DATA*******************
 
 app.get('/api/ingredients',(req, res)=>{
-    console.log('server handeling get ingredients request');
     res.json(ingredients);
-    
 });
+
+app.get('/api/recipes',(req, res)=>{
+    res.json(recipes);
+});
+
+app.get('/api/skills',(req, res)=>{
+    res.json(skills);
+})
   
 app.listen(app.get("port"), () => {
     console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
@@ -83,17 +97,3 @@ function SetupTestData(){
             db.close();
     });    
 }
-
-function GetIngredients(){
-    mongoClient.connect(connectUrl,function(err,db){
-        var dbo = db.db(databaseName);
-
-        return dbo.collection('ingredients').find({});
-    })
-}
-
-function GetRecipes(){
-    
-}
-
-SetupTestData();
