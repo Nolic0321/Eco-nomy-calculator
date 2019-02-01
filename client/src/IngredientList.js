@@ -11,9 +11,8 @@ import ingredientStore from './Stores/IngredientStore';
     }
   
     handleChange(e){
-        var data = [...this.props.ingredientData]
+        var data = ingredientStore.getIngredients()
         findElement(data,'name',e.target.name).cost = e.target.value
-        this.setState({data})
         this.props.onIngredientCostChanged(data);
     }
   
@@ -28,7 +27,6 @@ import ingredientStore from './Stores/IngredientStore';
     }
 
     render() {
-      console.log('ingredient list rendering...')
       const columns = [
         {
           Header: "Ingredients",

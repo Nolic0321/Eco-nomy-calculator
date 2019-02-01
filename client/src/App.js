@@ -5,6 +5,7 @@ import ingredientStore from './Stores/IngredientStore';
 import recipeStore from './Stores/RecipeStore'
 import RecipeList from './RecipeList'
 import IngredientList from './IngredientList'
+import SkillList from './SkillsList'
 
 class App extends Component {
   constructor(props){
@@ -46,6 +47,7 @@ class App extends Component {
       <div className="App">
         <h1>Eco-nomy Calculator</h1>
         <hr/>
+        <SkillList/>
         <br/>
         <div className='table-display'>
           <IngredientList 

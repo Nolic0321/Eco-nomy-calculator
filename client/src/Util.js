@@ -1,6 +1,6 @@
 export function findElement(arr, propName, propValue) {
-  if(arr == undefined){
-    return [];
+  if(arr === undefined){
+    return null;
   }
     for (var i=0; i < arr.length; i++)
       if (arr[i][propName] === propValue)

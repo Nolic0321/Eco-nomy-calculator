@@ -7,7 +7,6 @@ class Store {
     }
 
     componentDidUpdate() {
-        console.log("updating store")
     this.listeners.emit('stateChanged',this.state);
     }
 

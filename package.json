@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "node server.js",
+    "server": "nodemon server.js",
     "client": "node start-client.js",
     "test": "jest --watchAll",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",

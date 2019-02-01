@@ -20,7 +20,7 @@ class RecipeList extends Component {
         var ingredientInfo = findElement(ingredientStore.getIngredients(),'name',ingredient.name);
         var skillInfo = findElement(skillStore.getSkills(),'name',recipe.skill);
 
-        total += (ingredientInfo?ingredientInfo.cost:0) * ingredient.baseAmount * ((skillInfo)?skillInfo.multiplier:1);
+        total += (ingredientInfo===undefined?0:ingredientInfo.cost) * ingredient.baseAmount * ((skillInfo)?skillInfo.multiplier:1);
       }
       return total;
     }
@@ -33,6 +33,10 @@ class RecipeList extends Component {
             {
               Header: "Name",
               accessor: "name"
+            },
+            {
+              Header: "Speciality",
+              accessor: 'skill'
             },
             {
               Header: "Cost",

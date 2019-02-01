@@ -22,9 +22,9 @@ const ingredients = [
   ]
 
 var recipes = [
-    {name: 'Test Recipe 1', skill: 'skill 1',ingredients: [{name: 'Ingredient 1',baseAmount: 4, name: 'Ingredient 2',baseAmount: 4}]},
-    {name: 'Test Recipe 2', skill: 'skill 2',ingredients: [{name: 'Ingredient 3',baseAmount: 4, name: 'Ingredient 4',baseAmount: 4}]},
-    {name: 'Test Recipe 3', skill: 'skill 3',ingredients: [{name: 'Ingredient 3',baseAmount: 4, name: 'Ingredient 6',baseAmount: 40}]}
+    {name: 'Test Recipe 1', skill: 'skill 1',ingredients: [{name: 'ingredient 1',baseAmount: 4}, {name: 'ingredient 2',baseAmount: 4}]},
+    {name: 'Test Recipe 2', skill: 'skill 2',ingredients: [{name: 'ingredient 3',baseAmount: 4}, {name: 'ingredient 4',baseAmount: 4}]},
+    {name: 'Test Recipe 3', skill: 'skill 3',ingredients: [{name: 'ingredient 3',baseAmount: 4}, {name: 'ingredient 6',baseAmount: 40}]}
 ]
 
 const skills = [

@@ -15,7 +15,6 @@ class IngredientStore extends Store {
         console.log("getting DB data");
         fetch('/api/ingredients')
             .then((response) => {
-                console.log("responded")
                 if (response.status >= 200 && response.status < 300) {
                     return response;
                 }
@@ -26,7 +25,6 @@ class IngredientStore extends Store {
                 throw error;
             })
             .then((response) => {
-                console.log('Found ' + response)
                 return response.json()
             })
             .then(callback)
