@@ -17,7 +17,6 @@ class App extends Component {
       skillData: []
     }
     this.recalculateCosts = this.recalculateCosts.bind(this);
-    this.updateIngredientData = this.updateStateData.bind(this);
   }
   componentDidMount () {
     // We store a reference to the added event listener.
@@ -54,7 +53,7 @@ class App extends Component {
         <h1>Eco-nomy Calculator</h1>
         <hr/>
         <div className='table-display'>
-        <SkillList className='flex-grow-left'/>
+        <SkillList className = 'inline-flex'/>
         </div>
         
         <br/>

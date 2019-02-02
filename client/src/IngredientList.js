@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import ReactTable from 'react-table'
-import {findElement} from './Util'
+import {findElement} from './Utils/Util'
 import ingredientStore from './Stores/IngredientStore';
 
   class IngredientList extends Component {

@@ -51,3 +51,8 @@
 input{
   width: 100%;
 }
+
+.inline-flex{
+  display: inline-flex;
+  align-items: center;
+}

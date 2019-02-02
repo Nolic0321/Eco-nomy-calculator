@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactTable from 'react-table'
-import { findElement } from './Util'
+import { findElement } from './Utils/Util'
 import recipeStore from './Stores/RecipeStore'
 import ingredientStore from './Stores/IngredientStore'
 import skillStore from './Stores/SkillStore'
