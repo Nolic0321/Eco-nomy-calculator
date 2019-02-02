@@ -6,23 +6,29 @@ import recipeStore from './Stores/RecipeStore'
 import RecipeList from './RecipeList'
 import IngredientList from './IngredientList'
 import SkillList from './SkillsList'
+import skillStore from './Stores/SkillStore';
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      ingredientData: []
+      ingredientData: [],
+      recipeData: [],
+      skillData: []
     }
     this.recalculateCosts = this.recalculateCosts.bind(this);
     this.updateIngredientData = this.updateStateData.bind(this);
   }
   componentDidMount () {
     // We store a reference to the added event listener.
-    this.removeListener = ingredientStore.addListener((state) => {
-      this.updateStateData('ingredientData',state.data)
+    this.removeListener = ingredientStore.addListener(() => {
+      this.updateStateData('ingredientData',ingredientStore.getIngredients())
     });
-    this.removeListener = recipeStore.addListener((state) =>{
-      this.setState(state);
+    this.removeListener = recipeStore.addListener(() =>{
+      this.updateStateData('recipeData',recipeStore.getRecipes());
+    })
+    this.removeListener = skillStore.addListener(() =>{
+      this.updateStateData('skillData',skillStore.getSkills());
     })
     this.setState(ingredientStore.getState());
   }
