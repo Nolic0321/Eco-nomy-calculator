@@ -20,7 +20,7 @@ class RecipeList extends Component {
         var ingredientInfo = findElement(ingredientStore.getIngredients(),'name',ingredient.name);
         var skillInfo = findElement(skillStore.getSkills(),'name',recipe.skill);
 
-        total += (ingredientInfo===undefined?0:ingredientInfo.cost) * ingredient.baseAmount * ((skillInfo)?skillInfo.multiplier:1);
+        total += (ingredientInfo === null || ingredientInfo === undefined ? 0 : ingredientInfo.cost) * ingredient.baseAmount * ((skillInfo) ? skillInfo.multiplier : 1);
       }
       return total;
     }
@@ -35,8 +35,13 @@ class RecipeList extends Component {
               accessor: "name"
             },
             {
-              Header: "Speciality",
-              accessor: 'skill'
+              Header: "Speciality(Eff)",
+              id: 'skill',
+              accessor: (recipe) => {
+                const skills = skillStore.getSkills()
+                var skillMultiplier = findElement(skillStore.getSkills(),'name',recipe.skill)
+                return recipe.skill + '(' + ((1-(skillMultiplier === null || skillMultiplier === undefined?0:skillMultiplier.multiplier)) * 100) + '%)'
+              }
             },
             {
               Header: "Cost",

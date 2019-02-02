@@ -21,7 +21,7 @@ import ingredientStore from './Stores/IngredientStore';
         var cost = ingredientStore.getIngredients()[cellInfo.index].cost
       return(
           <form>
-        <input type='text' value={cost} name={name} contentEditable onChange={this.handleChange}></input>
+          <input type='text' value={cost} name={name} contentEditable onChange={this.handleChange}></input>
         </form>
       )
     }

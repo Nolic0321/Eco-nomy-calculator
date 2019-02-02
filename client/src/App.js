@@ -14,12 +14,12 @@ class App extends Component {
       ingredientData: []
     }
     this.recalculateCosts = this.recalculateCosts.bind(this);
-    this.updateIngredientData = this.updateIngredientData.bind(this);
+    this.updateIngredientData = this.updateStateData.bind(this);
   }
   componentDidMount () {
     // We store a reference to the added event listener.
     this.removeListener = ingredientStore.addListener((state) => {
-      this.updateIngredientData(state.data)
+      this.updateStateData('ingredientData',state.data)
     });
     this.removeListener = recipeStore.addListener((state) =>{
       this.setState(state);
@@ -31,9 +31,9 @@ class App extends Component {
     this.removeListener();
   }
 
-  updateIngredientData(newIngredientData){
+  updateStateData(dataName,newData){
     var newState = this.state;
-    newState.ingredientData = newIngredientData;
+    newState[dataName] = newData;
     this.setState(newState);
   }
 
@@ -47,14 +47,17 @@ class App extends Component {
       <div className="App">
         <h1>Eco-nomy Calculator</h1>
         <hr/>
-        <SkillList/>
+        <div className='table-display'>
+        <SkillList className='flex-grow-left'/>
+        </div>
+        
         <br/>
         <div className='table-display'>
           <IngredientList 
-            className='ingredient-list' 
+            className='flex-grow-left' 
             onIngredientCostChanged={this.recalculateCosts}/>
           <RecipeList  
-            className='recipe-list'/>
+            className='flex-grow-right'/>
         </div>
       </div>
     );

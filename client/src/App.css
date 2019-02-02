@@ -36,13 +36,13 @@
   justify-content: space-around;
 }
 
-.recipe-list{
+.flex-grow-right{
   flex-grow: 1;
   padding: 0px 20px 0px 20px;
   justify-content: right;
 }
 
-.ingredient-list{
+.flex-grow-left{
   flex-grow: 1;
   padding: 0px 20px 0px 20px;
   justify-content: left
