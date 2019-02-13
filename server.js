@@ -15,23 +15,23 @@ if (process.env.NODE_ENV === "production") {
 
 //******************** MOCK DATA*******************
 const ingredients = [
-    { name: 'ingredient 1', cost: 3 },
-    { name: 'ingredient 2', cost: 0 },
-    { name: 'ingredient 3', cost: 7 },
-    { name: 'ingredient 4', cost: 1 }
+    { id: 1,name: 'ingredient 1', cost: 3 },
+    { id: 2,name: 'ingredient 2', cost: 0 },
+    { id: 3,name: 'ingredient 3', cost: 7 },
+    { id: 4,name: 'ingredient 4', cost: 1 }
   ]
-
-var recipes = [
-    {name: 'Test Recipe 1', skill: 'skill 1',ingredients: [{name: 'ingredient 1',baseAmount: 4}, {name: 'ingredient 2',baseAmount: 4}]},
-    {name: 'Test Recipe 2', skill: 'skill 2',ingredients: [{name: 'ingredient 3',baseAmount: 4}, {name: 'ingredient 4',baseAmount: 4}]},
-    {name: 'Test Recipe 3', skill: 'skill 3',ingredients: [{name: 'ingredient 3',baseAmount: 4}, {name: 'ingredient 6',baseAmount: 40}]}
-]
 
 const skills = [
-    { name: 'skill 1', multiplier: .2 },
-    { name: 'skill 2', multiplier: 1 },
-    { name: 'skill 3', multiplier: .8 }
-  ]
+    { id: 1,name: 'skill 1', multiplier: .2 },
+    { id: 2,name: 'skill 2', multiplier: 1 },
+    { id: 3,name: 'skill 3', multiplier: .8 }
+]
+
+var recipes = [
+    {name: 'Test Recipe 1', skill: {Id: 1},ingredients: [{id: 1,baseAmount: 4}, {id: 2,baseAmount: 4}],cost:0},
+    {name: 'Test Recipe 2', skill: {Id: 2},ingredients: [{id: 3,baseAmount: 4}, {id: 4,baseAmount: 4}],cost:0},
+    {name: 'Test Recipe 3', skill: {Id: 3},ingredients: [{id: 3,baseAmount: 4}, {id: 6,baseAmount: 40}],cost:0}
+]
 //******************** MOCK DATA*******************
 
 app.get('/api/ingredients',(req, res)=>{

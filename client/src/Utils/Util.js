@@ -1,11 +1,14 @@
 export function findElement(arr, propName, propValue) {
-  if (arr === undefined) {
-    return null;
-  }
-  for (var i = 0; i < arr.length; i++)
-    if (arr[i][propName] === propValue)
-      return arr[i];
-
+  return new Promise(function(resolve, reject){
+    if (arr === undefined) {
+      reject(new ReferenceError("Array not provided"))
+    }
+    for (var i = 0; i < arr.length; i++)
+      if (arr[i][propName] === propValue)
+        resolve(arr[i]);
+  
+  })
+  
   // will return undefined if not found; you could return a default instead
 }
 
@@ -14,5 +17,5 @@ export function multiplierToPercent(multiplier) {
 }
 
 export function percentToMultiplier(percent) {
-  return 100 - percent / 100;
+  return (100 - percent) / 100;
 }

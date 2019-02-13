@@ -12,8 +12,9 @@ import ingredientStore from './Stores/IngredientStore';
   
     handleChange(e){
         var data = ingredientStore.getIngredients()
-        findElement(data,'name',e.target.name).cost = e.target.value
-        this.props.onIngredientCostChanged(data);
+        data.find(result => result.name === e.target.name).cost = e.target.value;
+        ingredientStore.setState(data)
+        // this.props.onIngredientCostChanged(data);
     }
   
     renderInput(cellInfo){

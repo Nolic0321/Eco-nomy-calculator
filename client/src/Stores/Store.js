@@ -7,11 +7,14 @@ class Store {
     }
 
     componentDidUpdate() {
-    this.listeners.emit('stateChanged');
+    this.listeners.emit('stateChanged', this.state);
     }
 
-    setState (state){
-        this.state = state;
+    setState (newState){
+        var tempState = this.state;
+        var name = Object.keys(newState)[0]
+        tempState[name] = newState[name]
+        this.state = tempState
         this.componentDidUpdate()
     }
 

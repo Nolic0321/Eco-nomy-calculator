@@ -37,6 +37,10 @@ class IngredientStore extends Store {
     setIngredients(ingredients){
         this.setState({data: ingredients});
     }
+
+    getById(id){
+        return this.state.data.find(ingredient => ingredient.id === id)
+    }
 }
 const ingredientStore = new IngredientStore([]);
 export default ingredientStore;

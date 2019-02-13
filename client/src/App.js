@@ -16,24 +16,36 @@ class App extends Component {
       recipeData: [],
       skillData: []
     }
+    this.listeners = [];
     this.recalculateCosts = this.recalculateCosts.bind(this);
   }
-  componentDidMount () {
+
+  componentDidMount() {
     // We store a reference to the added event listener.
-    this.removeListener = ingredientStore.addListener(() => {
-      this.updateStateData('ingredientData',ingredientStore.getIngredients())
-    });
-    this.removeListener = recipeStore.addListener(() =>{
-      this.updateStateData('recipeData',recipeStore.getRecipes());
-    })
-    this.removeListener = skillStore.addListener(() =>{
-      this.updateStateData('skillData',skillStore.getSkills());
-    })
-    this.setState(ingredientStore.getState());
+    this.listeners.push(ingredientStore.addListener((state) => {
+      this.setState({
+        ingredientData: state.data
+      });
+    }));
+
+    this.listeners.push(recipeStore.addListener((state) => {
+      this.setState({
+        recipeData: state.data
+      });
+    }));
+
+    this.listeners.push(skillStore.addListener((state) => {
+      this.setState({
+        skillData: state.data
+      });
+    }))
   }
+
   componentWillUnmount () {
     // Destroy the listener when the component unmounts.
-    this.removeListener();
+    for(var listener in this.listeners){
+      this.listeners[listener]()
+    }
   }
 
   updateStateData(dataName,newData){
@@ -43,7 +55,7 @@ class App extends Component {
   }
 
   recalculateCosts(newIngredientData){
-    ingredientStore.setIngredients(newIngredientData);
+    ingredientStore.setState({data:newIngredientData});
   }
 
   render() {

@@ -7,6 +7,40 @@ import skillStore from './Stores/SkillStore'
 
 class RecipeList extends Component {
 
+    constructor(props){
+      super(props)
+      this.state = {
+        data: [],
+        ingredients: [],
+        skills: []
+      }
+    }
+
+  
+
+  componentDidMount() {
+    this.removeListener = skillStore.addListener((state) => {
+        this.setState({
+            data: state.data
+        })
+    })
+
+    this.removeListener = ingredientStore.addListener(data => {
+      this.setState({
+        ingredients : data
+      })
+    })
+
+    this.removeListener = recipeStore.addListener(data => {
+      this.setState({
+        data : data
+      })
+    })
+}
+
+componentWillUnmount(){
+    this.removeListener()
+}
   //Get the recipe cost by earching the ingredients
   //list for cost and multiplying that cost by 
   //the recipe's base amount.
@@ -27,7 +61,7 @@ class RecipeList extends Component {
 
   getSpecialityEffeciency(recipe) {
     const skills = skillStore.getSkills()
-    var skillMultiplier = findElement(skillStore.getSkills(), 'name', recipe.skill)
+    var skillMultiplier = skills.find(skill => skill.id = recipe.skill.id).multiplier
     return recipe.skill + '(' + ((100 - (skillMultiplier === null || skillMultiplier === undefined ? 0 : skillMultiplier.multiplier * 100))) + '%)'
   }
 
