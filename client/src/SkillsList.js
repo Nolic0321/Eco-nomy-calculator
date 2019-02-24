@@ -3,23 +3,13 @@ import skillStore from './Stores/SkillStore'
 import {findElement, multiplierToPercent, percentToMultiplier} from './Utils/Util'
 import Select from 'react-select';
 
-const customStyles = {
-    container: (provided, state) =>({
-        ...provided,
-        'flex-grow':2,
-        width:300,
-        'padding-right': '10px'
-    })
-    
-}
-
 
 class SkillList extends Component{
     
     constructor(props){
         super(props)
         this.state = {
-            selectedValue:{
+            selectedSkill:{
                 eff:0
             },
             data: []
@@ -57,14 +47,9 @@ class SkillList extends Component{
 
     onDropdownChange(selectionObject,action){
         if(action.action === 'select-option'){
-            const skill = this.state.data.find(skill => skill.id === selectionObject.value)
+            const skill = this.state.data.find(skill => skill.id === selectionObject.id)
             selectionObject.eff = multiplierToPercent(skill.multiplier)
-            this.setState({selecteValue:selectionObject})
-            // findElement(this.state.data,'name',selectionObject.value)
-            //     .then((resolve) => {
-            //         selectionObject.eff = multiplierToPercent(resolve.multiplier);
-            //         this.setState({selectedValue:selectionObject})
-            //     },(error) => console.log(error))
+            this.setState({selectedSkill:selectionObject})
             
         }
     }
@@ -72,8 +57,12 @@ class SkillList extends Component{
         var result = []
         const skills = this.state.data
         for(var i = 0; i < skills.length; i ++){
-            result.push({value: skills[i].id, label: skills[i].name + ' (' + multiplierToPercent(skills[i].multiplier) + '%)'})
+            result.push({id: skills[i].id, label: skills[i].name + ' (' + multiplierToPercent(skills[i].multiplier) + '%)'})
+            if(this.select && this.state.selectedSkill.id && this.state.selectedSkill.id === skills[i].id){
+                this.select.state.value = result[i]
+            }
         }
+            
         this.setState({dropdownData: result});
     }
 
@@ -82,46 +71,39 @@ class SkillList extends Component{
             //Trigger the hidden span to show error to user
         } else {
             var currentData = this.state.data;
-            var selecteValueData = this.state.selectedValue;
-            var selectedSkill = currentData.find( d => d.name === e.target.name)
+            var selecteValueData = this.state.selectedSkill;
+            var selectedSkill = currentData.find( d => d.id == e.target.attributes.skillid.value)
             selectedSkill.multiplier = percentToMultiplier(e.target.value)
             selecteValueData.eff = e.target.value;
             this.setState({
                 data: currentData,
-                selectedValue: selecteValueData
+                selectedSkill: selecteValueData
             });
-            skillStore.setSkills({
+            skillStore.setState({
                 data: currentData
             });
             this.getDropdownData();
-            
-            // findElement(currentData, 'name', e.target.name)
-            //     .then((result) => {
-            //         result.multiplier = percentToMultiplier(e.target.value)
-            //         selecteValueData.eff = e.target.value;
-            //         this.setState({
-            //             data: currentData,
-            //             selectedValue: selecteValueData
-            //         });
-            //         skillStore.setSkills({
-            //             data: currentData
-            //         });
-            //         this.getDropdownData();
-            //         // document.getElementById('skillSelector').value = this.state.selectedValue.value;
-            //     }, (error) => {
-            //         if(typeof(error) != ReferenceError)
-            //             console.log(error);
-            //     });
         }
     }
 
     render(){
+
+        const customStyles = {
+            container: (provided) =>({
+                ...provided,
+                'flex-grow':2,
+                width:300,
+                'padding-right': '10px'
+            })
+            
+        }
         if(this.state.hasError){
             return <h1>Someting went wrong.</h1>
         }
         return(
             <div className={this.props.className}>
             <Select
+                ref= {(ref) => this.select = ref}
                 options = {this.state.dropdownData}
                 styles = {customStyles}
                 placeholder = "Select a specialty..."
@@ -130,9 +112,10 @@ class SkillList extends Component{
             />
             <input 
                 type='text'
-                value = {this.state.selectedValue.eff} 
-                name={this.state.selectedValue.value} 
+                value = {this.state.selectedSkill.eff} 
+                name={this.state.selectedSkill.id}
                 id='effInput' 
+                skillid = {this.state.selectedSkill.id}
                 onChange={this.updateEff} 
                 style={{width:'25px', height: '30px'}}/>
             <span>%</span>
