@@ -58,7 +58,7 @@ class RecipeList extends Component {
       total += (ingredientInfo === null || ingredientInfo === undefined ? 0 : ingredientInfo.cost) * ingredient.baseAmount * ((skillInfo) ? skillInfo.multiplier : 1);
 
     });
-    return total;
+    return total.toFixed(2);
   }
 
   getSpecialityEffeciency(recipe) {
