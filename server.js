@@ -28,9 +28,9 @@ const skills = [
 ]
 
 var recipes = [
-    {name: 'Test Recipe 1', skill: {Id: 1},ingredients: [{id: 1,baseAmount: 4}, {id: 2,baseAmount: 4}],cost:0},
-    {name: 'Test Recipe 2', skill: {Id: 2},ingredients: [{id: 3,baseAmount: 4}, {id: 4,baseAmount: 4}],cost:0},
-    {name: 'Test Recipe 3', skill: {Id: 3},ingredients: [{id: 3,baseAmount: 4}, {id: 6,baseAmount: 40}],cost:0}
+    {name: 'Test Recipe 1', skill: {id: 1},ingredients: [{id: 1,baseAmount: 4}, {id: 2,baseAmount: 4}],cost:0},
+    {name: 'Test Recipe 2', skill: {id: 2},ingredients: [{id: 3,baseAmount: 4}, {id: 4,baseAmount: 4}],cost:0},
+    {name: 'Test Recipe 3', skill: {id: 3},ingredients: [{id: 3,baseAmount: 4}, {id: 6,baseAmount: 40}],cost:0}
 ]
 //******************** MOCK DATA*******************
 

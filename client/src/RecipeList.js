@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import ReactTable from 'react-table'
-import { findElement } from './Utils/Util'
 import recipeStore from './Stores/RecipeStore'
 import ingredientStore from './Stores/IngredientStore'
 import skillStore from './Stores/SkillStore'
@@ -14,6 +13,9 @@ class RecipeList extends Component {
         ingredients: [],
         skills: []
       }
+
+      this.getRecipeCost = this.getRecipeCost.bind(this)
+      this.getSpecialityEffeciency = this.getSpecialityEffeciency.bind(this)
     }
 
   
@@ -21,19 +23,19 @@ class RecipeList extends Component {
   componentDidMount() {
     this.removeListener = skillStore.addListener((state) => {
         this.setState({
-            data: state.data
+            skills: state.data
         })
     })
 
     this.removeListener = ingredientStore.addListener(data => {
       this.setState({
-        ingredients : data
+        ingredients : data.data
       })
     })
 
     this.removeListener = recipeStore.addListener(data => {
       this.setState({
-        data : data
+        data : data.data
       })
     })
 }
@@ -49,20 +51,25 @@ componentWillUnmount(){
     var total = 0.0
 
     //iterate over all ingredients
-    for (var i = 0; i < recipe.ingredients.length; i++) {
-      var ingredient = recipe.ingredients[i];
-      var ingredientInfo = findElement(ingredientStore.getIngredients(), 'name', ingredient.name);
-      var skillInfo = findElement(skillStore.getSkills(), 'name', recipe.skill);
+    recipe.ingredients.forEach(ingredient => {
+      var ingredientInfo = this.state.ingredients.find(ing => ing.id === ingredient.id) //findElement(ingredientStore.getIngredients(), 'name', ingredient.name);
+      var skillInfo = this.state.skills.find(k => k.id === recipe.skill.id) //findElement(skillStore.getSkills(), 'name', recipe.skill);
 
       total += (ingredientInfo === null || ingredientInfo === undefined ? 0 : ingredientInfo.cost) * ingredient.baseAmount * ((skillInfo) ? skillInfo.multiplier : 1);
-    }
+    
+    }); 
     return total;
   }
 
-  getSpecialityEffeciency(recipe) {
-    const skills = skillStore.getSkills()
-    var skillMultiplier = skills.find(skill => skill.id = recipe.skill.id).multiplier
-    return recipe.skill + '(' + ((100 - (skillMultiplier === null || skillMultiplier === undefined ? 0 : skillMultiplier.multiplier * 100))) + '%)'
+  getSpecialityEffeciency(recipe, skills) {
+    if(skills.length === 0)
+      return ''
+    else{
+      const skill = skills.find(skill => skill.id === recipe.skill.id)
+      const skillMultiplier = skill.multiplier
+      return skill.name + '(' + ((100 - (skillMultiplier === null || skillMultiplier === undefined ? 0 : skillMultiplier * 100))) + '%)'
+    }    
+    
   }
 
   render() {
@@ -77,7 +84,7 @@ componentWillUnmount(){
           {
             Header: "Speciality(Eff)",
             id: 'skill',
-            accessor: (recipe) => this.getSpecialityEffeciency(recipe)
+            accessor: (recipe) => this.getSpecialityEffeciency(recipe, this.state.skills)
           },
           {
             Header: "Cost",

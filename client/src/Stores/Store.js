@@ -4,6 +4,7 @@ class Store {
     constructor(initialState) {
         this.state = initialState;
         this.listeners = new EventEmitter();
+        this.setState = this.setState.bind(this)
     }
 
     componentDidUpdate() {

@@ -57,11 +57,14 @@ class SkillList extends Component{
 
     onDropdownChange(selectionObject,action){
         if(action.action === 'select-option'){
-            findElement(this.state.data,'name',selectionObject.value)
-                .then((resolve) => {
-                    selectionObject.eff = multiplierToPercent(resolve.multiplier);
-                    this.setState({selectedValue:selectionObject})
-                },(error) => console.log(error))
+            const skill = this.state.data.find(skill => skill.id === selectionObject.value)
+            selectionObject.eff = multiplierToPercent(skill.multiplier)
+            this.setState({selecteValue:selectionObject})
+            // findElement(this.state.data,'name',selectionObject.value)
+            //     .then((resolve) => {
+            //         selectionObject.eff = multiplierToPercent(resolve.multiplier);
+            //         this.setState({selectedValue:selectionObject})
+            //     },(error) => console.log(error))
             
         }
     }
@@ -69,7 +72,7 @@ class SkillList extends Component{
         var result = []
         const skills = this.state.data
         for(var i = 0; i < skills.length; i ++){
-            result.push({value: skills[i].name, label: skills[i].name + ' (' + multiplierToPercent(skills[i].multiplier) + '%)'})
+            result.push({value: skills[i].id, label: skills[i].name + ' (' + multiplierToPercent(skills[i].multiplier) + '%)'})
         }
         this.setState({dropdownData: result});
     }
@@ -80,23 +83,35 @@ class SkillList extends Component{
         } else {
             var currentData = this.state.data;
             var selecteValueData = this.state.selectedValue;
-            findElement(currentData, 'name', e.target.name)
-                .then((result) => {
-                    result.multiplier = percentToMultiplier(e.target.value)
-                    selecteValueData.eff = e.target.value;
-                    this.setState({
-                        data: currentData,
-                        selectedValue: selecteValueData
-                    });
-                    skillStore.setSkills({
-                        data: currentData
-                    });
-                    this.getDropdownData();
-                    // document.getElementById('skillSelector').value = this.state.selectedValue.value;
-                }, (error) => {
-                    if(typeof(error) != ReferenceError)
-                        console.log(error);
-                });
+            var selectedSkill = currentData.find( d => d.name === e.target.name)
+            selectedSkill.multiplier = percentToMultiplier(e.target.value)
+            selecteValueData.eff = e.target.value;
+            this.setState({
+                data: currentData,
+                selectedValue: selecteValueData
+            });
+            skillStore.setSkills({
+                data: currentData
+            });
+            this.getDropdownData();
+            
+            // findElement(currentData, 'name', e.target.name)
+            //     .then((result) => {
+            //         result.multiplier = percentToMultiplier(e.target.value)
+            //         selecteValueData.eff = e.target.value;
+            //         this.setState({
+            //             data: currentData,
+            //             selectedValue: selecteValueData
+            //         });
+            //         skillStore.setSkills({
+            //             data: currentData
+            //         });
+            //         this.getDropdownData();
+            //         // document.getElementById('skillSelector').value = this.state.selectedValue.value;
+            //     }, (error) => {
+            //         if(typeof(error) != ReferenceError)
+            //             console.log(error);
+            //     });
         }
     }
 
